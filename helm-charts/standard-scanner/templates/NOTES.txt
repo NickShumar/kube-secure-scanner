@@ -1,9 +1,9 @@
 Thank you for installing {{ .Chart.Name }}.
 
 Your standard container scanner has been deployed with the following settings:
-- Target namespace: {{ .Values.common-scanner.scanner-infrastructure.targetNamespace }}
-- Service account: {{ .Values.common-scanner.scanner-infrastructure.serviceAccount.name }}
-- Minimum compliance threshold: {{ .Values.common-scanner.safCli.thresholdConfig.compliance.min }}%
+- Target namespace: {{ .Values.common_scanner.scanner_infrastructure.targetNamespace }}
+- Service account: {{ .Values.common_scanner.scanner_infrastructure.serviceAccount.name }}
+- Minimum compliance threshold: {{ .Values.common_scanner.safCli.thresholdConfig.compliance.min }}%
 
 {{- if .Values.testPod.deploy }}
 A test pod has been deployed:
@@ -14,16 +14,16 @@ A test pod has been deployed:
 
 To generate a kubeconfig file for scanning:
 
-    ./scripts/generate-kubeconfig.sh {{ .Values.common-scanner.scanner-infrastructure.targetNamespace }} {{ .Values.common-scanner.scanner-infrastructure.serviceAccount.name }} ./kubeconfig.yaml
+    ./scripts/generate-kubeconfig.sh {{ .Values.common_scanner.scanner_infrastructure.targetNamespace }} {{ .Values.common_scanner.scanner_infrastructure.serviceAccount.name }} ./kubeconfig.yaml
 
 To scan a container:
 
     KUBECONFIG=./kubeconfig.yaml cinc-auditor exec ./examples/cinc-profiles/container-baseline \
-      -t k8s-container://{{ .Values.common-scanner.scanner-infrastructure.targetNamespace }}/{{ .Values.testPod.name }}/{{ .Values.testPod.containerName }}
+      -t k8s-container://{{ .Values.common_scanner.scanner_infrastructure.targetNamespace }}/{{ .Values.testPod.name }}/{{ .Values.testPod.containerName }}
 
 Alternatively, use the helper script:
 
-    ./scripts/scan-container.sh {{ .Values.common-scanner.scanner-infrastructure.targetNamespace }} {{ .Values.testPod.name }} {{ .Values.testPod.containerName }} ./examples/cinc-profiles/container-baseline
+    ./scripts/scan-container.sh {{ .Values.common_scanner.scanner_infrastructure.targetNamespace }} {{ .Values.testPod.name }} {{ .Values.testPod.containerName }} ./examples/cinc-profiles/container-baseline
 
 For more information, see the documentation:
 - README.md: ./helm-charts/README.md

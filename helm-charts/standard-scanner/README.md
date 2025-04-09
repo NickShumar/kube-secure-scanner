@@ -12,15 +12,15 @@ The standard-scanner chart is designed for containers that have a shell and stan
 ## Dependencies
 
 This chart depends on:
-- common-scanner: Shared scanning utilities and scripts
+- common_scanner: Shared scanning utilities and scripts
   - scanner-infrastructure: Core RBAC, service accounts, tokens
 
 ## Values
 
 | Parameter | Description | Default |
 |-----------|-------------|---------|
-| `common-scanner.scanner-infrastructure.targetNamespace` | Target namespace | `inspec-test` |
-| `common-scanner.scripts.includeScanScript` | Include scan script | `true` |
+| `common_scanner.scanner-infrastructure.targetNamespace` | Target namespace | `inspec-test` |
+| `common_scanner.scripts.includeScanScript` | Include scan script | `true` |
 | `testPod.deploy` | Deploy a test pod | `true` |
 | `testPod.name` | Name of the test pod | `inspec-target` |
 | `testPod.containerName` | Container name | `busybox` |
@@ -34,7 +34,7 @@ This chart depends on:
 ```bash
 # Install the standard scanner
 helm install standard-scanner ./standard-scanner \
-  --set common-scanner.scanner-infrastructure.targetNamespace=inspec-test \
+  --set common_scanner.scanner-infrastructure.targetNamespace=inspec-test \
   --set testPod.deploy=true
 
 # Generate a kubeconfig file for access

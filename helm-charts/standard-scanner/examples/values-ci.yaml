@@ -1,9 +1,9 @@
 # CI/CD pipeline values for standard-scanner
 # These settings optimize for security and automation in CI/CD environments
 
-common-scanner:
+common_scanner:
   # Infrastructure configuration
-  scanner-infrastructure:
+  scanner_infrastructure:
     targetNamespace: inspec-ci
     serviceAccount:
       create: true

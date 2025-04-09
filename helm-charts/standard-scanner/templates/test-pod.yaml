@@ -3,7 +3,7 @@ apiVersion: v1
 kind: Pod
 metadata:
   name: {{ .Values.testPod.name }}
-  namespace: {{ .Values.common-scanner.scanner-infrastructure.targetNamespace }}
+  namespace: {{ .Values.common_scanner.scanner_infrastructure.targetNamespace }}
   labels:
     app.kubernetes.io/name: {{ .Chart.Name }}
     app.kubernetes.io/instance: {{ .Release.Name }}

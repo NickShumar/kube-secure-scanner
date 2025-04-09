@@ -14,6 +14,6 @@ keywords:
 maintainers:
   - name: Security Team
 dependencies:
-  - name: common-scanner
+  - name: common_scanner
     version: 0.1.0
     repository: "file://../common-scanner"

@@ -1,0 +1,6 @@
+dependencies:
+- name: common_scanner
+  repository: file://../common-scanner
+  version: 0.1.0
+digest: sha256:bb4dc7074e02a6777f5bcc29cd280efbb86ed14b19d1d99cba81bbb7bd4b86a1
+generated: "2025-04-02T14:03:18.620045-04:00"

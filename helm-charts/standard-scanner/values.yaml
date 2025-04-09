@@ -2,9 +2,9 @@
 # This is a YAML-formatted file
 
 # Common scanner configuration
-common-scanner:
+common_scanner:
   # Pass-through values for scanner-infrastructure
-  scanner-infrastructure:
+  scanner_infrastructure:
     targetNamespace: inspec-test
     serviceAccount:
       create: true

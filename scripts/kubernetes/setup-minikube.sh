@@ -93,23 +93,23 @@ check_dependency() {
   
   # Check if the command is available
   if ! command -v "$cmd" &> /dev/null; then
-    echo -e "${YELLOW}⚠️ $name is not installed${NC}"
+    echo -e "${YELLOW} $name is not installed${NC}"
     
     if [ "$INSTALL_DEPS" = true ]; then
       echo -e "${BLUE}🔄 Installing $name...${NC}"
       eval "$install_cmd" || {
-        echo -e "${RED}❌ Failed to install $name${NC}"
+        echo -e "${RED} Failed to install $name${NC}"
         echo -e "${YELLOW}Please install manually: $install_url${NC}"
         return 1
       }
-      echo -e "${GREEN}✅ $name installed successfully${NC}"
+      echo -e "${GREEN} $name installed successfully${NC}"
     else
       echo -e "${YELLOW}To install: $install_cmd${NC}"
       echo -e "${YELLOW}Or visit: $install_url${NC}"
       return 1
     fi
   else
-    echo -e "${GREEN}✅ $name is installed${NC}"
+    echo -e "${GREEN} $name is installed${NC}"
     return 0
   fi
 }
@@ -129,7 +129,7 @@ check_dependency "minikube" "Minikube" \
 
 # Exit if minikube is not installed and couldn't be installed
 if [ $? -ne 0 ]; then
-  echo -e "${RED}❌ Minikube is required to continue. Please install it first.${NC}"
+  echo -e "${RED} Minikube is required to continue. Please install it first.${NC}"
   exit 1
 fi
 
@@ -140,7 +140,7 @@ check_dependency "kubectl" "kubectl" \
 
 # Exit if kubectl is not installed and couldn't be installed
 if [ $? -ne 0 ]; then
-  echo -e "${RED}❌ kubectl is required to continue. Please install it first.${NC}"
+  echo -e "${RED} kubectl is required to continue. Please install it first.${NC}"
   exit 1
 fi
 
@@ -152,7 +152,7 @@ if [[ "$DEPLOY_METHOD" == "all" || "$DEPLOY_METHOD" == "helm" ]]; then
   
   # Exit if helm is required but not installed
   if [ $? -ne 0 ]; then
-    echo -e "${RED}❌ Helm is required for the selected deployment method. Please install it first.${NC}"
+    echo -e "${RED} Helm is required for the selected deployment method. Please install it first.${NC}"
     exit 1
   fi
 fi
@@ -169,19 +169,19 @@ if [ $? -eq 0 ]; then
   # Check for the train-k8s-container plugin
   echo -e "${YELLOW}Checking for train-k8s-container plugin...${NC}"
   if ! cinc-auditor plugin list | grep -q "train-k8s-container"; then
-    echo -e "${YELLOW}⚠️ The train-k8s-container plugin is not installed${NC}"
+    echo -e "${YELLOW} The train-k8s-container plugin is not installed${NC}"
     
     if [ "$INSTALL_DEPS" = true ]; then
       echo -e "${BLUE}🔄 Installing train-k8s-container plugin...${NC}"
       cinc-auditor plugin install train-k8s-container || {
-        echo -e "${RED}❌ Failed to install train-k8s-container plugin${NC}"
+        echo -e "${RED} Failed to install train-k8s-container plugin${NC}"
         echo -e "${YELLOW}Please install manually: cinc-auditor plugin install train-k8s-container${NC}"
       }
     else
       echo -e "${YELLOW}To install: cinc-auditor plugin install train-k8s-container${NC}"
     fi
   else
-    echo -e "${GREEN}✅ train-k8s-container plugin is installed${NC}"
+    echo -e "${GREEN} train-k8s-container plugin is installed${NC}"
   fi
 fi
 
@@ -195,18 +195,18 @@ echo ""
 echo -e "${BLUE}Dependency Summary:${NC}"
 if [ "$CINC_INSTALLED" = true ]; then
   if cinc-auditor plugin list | grep -q "train-k8s-container"; then
-    echo -e "${GREEN}✅ CINC Auditor with train-k8s-container: Ready${NC}"
+    echo -e "${GREEN} CINC Auditor with train-k8s-container: Ready${NC}"
   else
-    echo -e "${YELLOW}⚠️ CINC Auditor: Installed, but missing train-k8s-container plugin${NC}"
+    echo -e "${YELLOW} CINC Auditor: Installed, but missing train-k8s-container plugin${NC}"
   fi
 else
-  echo -e "${YELLOW}⚠️ CINC Auditor: Not installed (required for scanning)${NC}"
+  echo -e "${YELLOW} CINC Auditor: Not installed (required for scanning)${NC}"
 fi
 
 if command -v saf &> /dev/null; then
-  echo -e "${GREEN}✅ MITRE SAF CLI: Ready${NC}"
+  echo -e "${GREEN} MITRE SAF CLI: Ready${NC}"
 else
-  echo -e "${YELLOW}⚠️ MITRE SAF CLI: Not installed (recommended for results analysis)${NC}"
+  echo -e "${YELLOW} MITRE SAF CLI: Not installed (recommended for results analysis)${NC}"
 fi
 
 echo ""
@@ -221,25 +221,25 @@ echo -e "${BLUE}==================================================${NC}"
 
 # Check if the specified profile is already running
 if minikube status -p "$PROFILE" &>/dev/null; then
-    echo -e "${YELLOW}🔄 Minikube profile '$PROFILE' is already running. Stopping and resetting...${NC}"
+    echo -e "${YELLOW} Minikube profile '$PROFILE' is already running. Stopping and resetting...${NC}"
     minikube stop -p "$PROFILE"
     minikube delete -p "$PROFILE"
 fi
 
 # Start minikube with specified driver and node count
-echo -e "${BLUE}🚀 Starting minikube with ${NODES} nodes using $DRIVER driver...${NC}"
+echo -e "${BLUE} Starting minikube with ${NODES} nodes using $DRIVER driver...${NC}"
 minikube start --driver=${DRIVER} \
               --kubernetes-version=${K8S_VERSION} \
               --nodes=${NODES} \
               -p ${PROFILE}
 
 # Verify the setup
-echo -e "${GREEN}✅ Cluster is up and running!${NC}"
-echo -e "${BLUE}📋 Node status:${NC}"
+echo -e "${GREEN} Cluster is up and running!${NC}"
+echo -e "${BLUE} Node status:${NC}"
 kubectl get nodes -o wide
 
 # Show cluster info
-echo -e "${BLUE}📋 Cluster info:${NC}"
+echo -e "${BLUE} Cluster info:${NC}"
 kubectl cluster-info
 
 ########################
@@ -251,7 +251,7 @@ echo -e "${BLUE}  DEPLOYING SCANNING INFRASTRUCTURE                ${NC}"
 echo -e "${BLUE}==================================================${NC}"
 
 if [[ "$DEPLOY_METHOD" == "all" || "$DEPLOY_METHOD" == "manual" ]]; then
-    echo -e "${BLUE}📦 Deploying components using kubectl...${NC}"
+    echo -e "${BLUE} Deploying components using kubectl...${NC}"
     
     # Create namespace
     echo -e "${YELLOW}Creating namespace...${NC}"
@@ -348,21 +348,21 @@ EOF
     fi
     
     # Wait for pods to be ready
-    echo -e "${YELLOW}⏳ Waiting for test pod to be ready...${NC}"
+    echo -e "${YELLOW} Waiting for test pod to be ready...${NC}"
     kubectl wait --for=condition=ready pod/inspec-target -n inspec-test --timeout=60s
     
     if [ "$DEPLOY_DISTROLESS" = true ]; then
-      echo -e "${YELLOW}⏳ Waiting for distroless test pod to be ready...${NC}"
+      echo -e "${YELLOW} Waiting for distroless test pod to be ready...${NC}"
       kubectl wait --for=condition=ready pod/distroless-target -n inspec-test --timeout=60s || {
-        echo -e "${YELLOW}⚠️ Warning: Distroless pod didn't reach ready state. This may be expected for some distroless images.${NC}"
+        echo -e "${YELLOW} Warning: Distroless pod didn't reach ready state. This may be expected for some distroless images.${NC}"
       }
     fi
     
-    echo -e "${GREEN}✅ Manual deployment complete!${NC}"
+    echo -e "${GREEN} Manual deployment complete!${NC}"
 fi
 
 if [[ "$DEPLOY_METHOD" == "all" || "$DEPLOY_METHOD" == "helm" ]]; then
-    echo -e "${BLUE}📦 Deploying components using Helm...${NC}"
+    echo -e "${BLUE} Deploying components using Helm...${NC}"
     
     # Standard container scanning
     if [[ "$DEPLOY_METHOD" == "all" || "$DEPLOY_DISTROLESS" = false ]]; then
@@ -373,10 +373,10 @@ if [[ "$DEPLOY_METHOD" == "all" || "$DEPLOY_METHOD" == "helm" ]]; then
           --set testPod.name=inspec-target-helm
         
         # Wait for pod to be ready
-        echo -e "${YELLOW}⏳ Waiting for standard test pod to be ready...${NC}"
+        echo -e "${YELLOW} Waiting for standard test pod to be ready...${NC}"
         kubectl wait --for=condition=ready pod/inspec-target-helm -n inspec-test --timeout=60s
         
-        echo -e "${GREEN}✅ Standard scanner deployment complete!${NC}"
+        echo -e "${GREEN} Standard scanner deployment complete!${NC}"
     fi
     
     # Distroless container scanning
@@ -388,20 +388,20 @@ if [[ "$DEPLOY_METHOD" == "all" || "$DEPLOY_METHOD" == "helm" ]]; then
           --set testPod.name=distroless-target-helm
         
         # Wait for pod to be ready
-        echo -e "${YELLOW}⏳ Waiting for distroless test pod to be ready...${NC}"
+        echo -e "${YELLOW} Waiting for distroless test pod to be ready...${NC}"
         kubectl wait --for=condition=ready pod/distroless-target-helm -n inspec-test --timeout=60s || {
-            echo -e "${YELLOW}⚠️ Warning: Distroless pod didn't reach ready state. This may be expected for some distroless images.${NC}"
+            echo -e "${YELLOW} Warning: Distroless pod didn't reach ready state. This may be expected for some distroless images.${NC}"
         }
         
-        echo -e "${GREEN}✅ Distroless scanner deployment complete!${NC}"
+        echo -e "${GREEN} Distroless scanner deployment complete!${NC}"
     fi
     
-    echo -e "${GREEN}✅ Helm deployment complete!${NC}"
+    echo -e "${GREEN} Helm deployment complete!${NC}"
 fi
 
 # Generate a kubeconfig file
-echo -e "${BLUE}🔑 Generating kubeconfig file...${NC}"
-./scripts/generate-kubeconfig.sh inspec-test inspec-scanner ./kubeconfig.yaml
+echo -e "${BLUE} Generating kubeconfig file...${NC}"
+./scripts/kubernetes/generate-kubeconfig.sh inspec-test inspec-scanner ./kubeconfig.yaml
 
 ########################
 # Validation Phase     #
@@ -424,16 +424,16 @@ kubectl get roles,rolebindings -n inspec-test
 # Validate generated kubeconfig
 echo -e "${YELLOW}Testing kubeconfig file...${NC}"
 if KUBECONFIG=./kubeconfig.yaml kubectl get pods -n inspec-test &>/dev/null; then
-  echo -e "${GREEN}✅ Kubeconfig validation successful!${NC}"
+  echo -e "${GREEN} Kubeconfig validation successful!${NC}"
 else
-  echo -e "${RED}❌ Kubeconfig validation failed. There might be an issue with the token or permissions.${NC}"
+  echo -e "${RED} Kubeconfig validation failed. There might be an issue with the token or permissions.${NC}"
 fi
 
 # Setup complete!
 echo ""
-echo -e "${GREEN}🎉 Minikube setup complete! Your ${NODES}-node cluster is ready for container scanning research.${NC}"
+echo -e "${GREEN} Minikube setup complete! Your ${NODES}-node cluster is ready for container scanning research.${NC}"
 echo ""
-echo -e "${BLUE}📋 Configuration Summary:${NC}"
+echo -e "${BLUE} Configuration Summary:${NC}"
 echo -e "  • Minikube Profile: ${PROFILE}"
 echo -e "  • Kubernetes Version: ${K8S_VERSION}"
 echo -e "  • Nodes: ${NODES}"

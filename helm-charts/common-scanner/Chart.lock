@@ -1,0 +1,6 @@
+dependencies:
+- name: scanner-infrastructure
+  repository: file://../scanner-infrastructure
+  version: 0.1.0
+digest: sha256:7fe6365a99f6581f9aec63e1b5ca442220f20b789894725d7e9b838a8a0f9a6b
+generated: "2025-04-02T14:04:12.328295-04:00"
